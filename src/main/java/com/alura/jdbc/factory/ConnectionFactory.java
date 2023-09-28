@@ -24,12 +24,16 @@ public class ConnectionFactory {
 	//Petron de diseño Factory Method
 	//tiene como objetivo encapsular el codigo de creacion de un objeto especifico centralizando la logica
 	//en un solo punto la clase creaconexion es una fabrica de conexiones
-	public Connection recuperaConexion() throws SQLException {
+	public Connection recuperaConexion() {
 		//return DriverManager.getConnection(
                 //"jdbc:mysql://localhost/control_de_stock?useTimeZone=true&serverTimeZone=UTC",
                 //"root",
                 //"");
-		return  this.datasource.getConnection();
+		try {			
+			return  this.datasource.getConnection();
+		} catch (SQLException e) {
+			throw new RuntimeException(e);
+		}
 	}
 
 }

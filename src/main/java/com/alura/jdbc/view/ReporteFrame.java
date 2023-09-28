@@ -1,6 +1,7 @@
 package com.alura.jdbc.view;
 
 import java.awt.Container;
+import java.util.concurrent.atomic.AtomicInteger;
 
 import javax.swing.JFrame;
 import javax.swing.JTable;
@@ -16,7 +17,7 @@ public class ReporteFrame extends JFrame {
     private DefaultTableModel modelo;
 
     private CategoriaController categoriaController;
-
+    
     public ReporteFrame(ControlDeStockFrame controlDeStockFrame) {
         super("Reporte de produtos del stock");
 
@@ -45,9 +46,21 @@ public class ReporteFrame extends JFrame {
     private void cargaReporte() {
         var contenido = categoriaController.cargaReporte();
         
-        // TODO
-        contenido.forEach(fila -> modelo
-                .addRow(new Object[] {}));
+        contenido.forEach(categoria -> {
+        	modelo.addRow(new Object[] {categoria});
+        	var productos = categoria.getProductos();
+        	//AtomicInteger contador = new AtomicInteger(1);
+        	productos.forEach(producto -> {
+        		modelo.addRow(
+        			new Object[] {
+        					//contador.getAndIncrement(),
+        					"",
+        					producto.getNombre(),
+        					producto.getCantidad()
+        			}
+        		);
+        	});
+        });
     }
 
 }
